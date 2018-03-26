@@ -1,0 +1,1 @@
+# aurora-module-demo-mode-calendar-initializer-plugin
