@@ -15,6 +15,10 @@ namespace Aurora\Modules\DemoModeCalendarInitializerPlugin;
  */
 class Module extends \Aurora\System\Module\AbstractModule
 {
+	protected $aRequireModules = [
+		'DemoModePlugin',
+		'Calendar'
+	];
 	protected $oDemoModePluginDecorator = null;
 	
 	protected $oCalendarDecorator = null;
