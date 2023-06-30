@@ -30,7 +30,7 @@ class Module extends \Aurora\System\Module\AbstractModule
 		$oDemoModePluginDecorator = \Aurora\Modules\DemoModePlugin\Module::Decorator();
 		$oCalendarDecorator = \Aurora\Modules\Calendar\Module::Decorator();
 		
-		if (empty($oDemoModePluginDecorator) || empty($oCalendarDecorator))
+		if (!$oDemoModePluginDecorator || !$oCalendarDecorator)
 		{
 			return;
 		}
@@ -49,17 +49,17 @@ class Module extends \Aurora\System\Module\AbstractModule
 		{
 			$oUser = \Aurora\System\Api::getAuthenticatedUser();
 
-			if (!empty($oUser))
+			if ($oUser)
 			{
 				$sCalendarDisplayname = $this->oCalendarDecorator->i18N('CALENDAR_DEFAULT_NAME', null, null, $oUser->UUID);
-				$aCalendar = $this->oCalendarDecorator->CreateCalendar($oUser->EntityId, $sCalendarDisplayname, '', \Afterlogic\DAV\Constants::CALENDAR_DEFAULT_COLOR);
+				$aCalendar = $this->oCalendarDecorator->CreateCalendar($oUser->Id, $sCalendarDisplayname, '', \Afterlogic\DAV\Constants::CALENDAR_DEFAULT_COLOR);
 				if (is_array($aCalendar) && isset($aCalendar['Id']))
 				{
 					$this->populateData($aCalendar['Id'], 'events');
 				}
 				
 				$sTaskDisplayname = $this->oCalendarDecorator->i18N('TASKS_DEFAULT_NAME', null, null, $oUser->UUID);
-				$aTask = $this->oCalendarDecorator->CreateCalendar($oUser->EntityId, $sTaskDisplayname, '', \Afterlogic\DAV\Constants::TASKS_DEFAULT_COLOR);
+				$aTask = $this->oCalendarDecorator->CreateCalendar($oUser->Id, $sTaskDisplayname, '', \Afterlogic\DAV\Constants::TASKS_DEFAULT_COLOR);
 				if (is_array($aTask) && isset($aTask['Id']))
 				{
 					$this->populateData($aTask['Id'], 'tasks');
@@ -88,7 +88,7 @@ class Module extends \Aurora\System\Module\AbstractModule
 				$sData = str_replace('%UID%', $sUUID, $sData);
 				$sData = str_replace('%DATE%', $sDate, $sData);
 
-				$oResult = $this->oCalendarDecorator->CreateEventFromData($oUser->EntityId, $sCalendarId, $sUUID, $sData);
+				$oResult = $this->oCalendarDecorator->CreateEventFromData($oUser->Id, $sCalendarId, $sUUID, $sData);
 				$i++;
 
 				if (isset($oResult['Error'])) 
