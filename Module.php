@@ -66,15 +66,15 @@ class Module extends \Aurora\System\Module\AbstractModule
     protected function populateData($sCalendarId, $sType)
     {
         $iErrors = 0;
-        $sResourceDir = __Dir__.'/content/';
+        $sResourceDir = __Dir__ . '/content/';
 
         $oUser = \Aurora\System\Api::getAuthenticatedUser();
 
-        $aFiles = scandir($sResourceDir.$sType.'/');
+        $aFiles = scandir($sResourceDir . $sType . '/');
         $i = 0;
         foreach ($aFiles as $sFileName) {
             if ($sFileName !== '.' && $sFileName !== '..') {
-                $sData = \file_get_contents($sResourceDir.$sType.'/'.$sFileName);
+                $sData = \file_get_contents($sResourceDir . $sType . '/' . $sFileName);
                 $sUUID = \Sabre\DAV\UUIDUtil::getUUID();
                 $sDate = gmdate('Ymd', time() + 60 * 60 * 24 * $i);
 
